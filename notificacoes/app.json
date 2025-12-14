@@ -1,0 +1,26 @@
+{
+  "expo": {
+    "name": "notificacoes",
+    "slug": "notificacoes",
+    "version": "1.0.0",
+    "runtimeVersion": "1.0.0",
+    "updates": {
+      "enabled": true,
+      "checkAutomatically": "ON_LOAD",
+      "fallbackToCacheTimeout": 0,
+      "url": "https://u.expo.dev/c068d806-0a3f-437c-995b-4f3f719cd924"
+    },
+    "plugins": [
+      "expo-secure-store"
+    ],
+    "android": {
+      "package": "com.matewx_j.notificacoes"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "c068d806-0a3f-437c-995b-4f3f719cd924"
+      }
+    },
+    "ios": {}
+  }
+}
