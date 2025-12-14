@@ -2,37 +2,31 @@ import * as Notifications from 'expo-notifications';
 import * as Device from 'expo-device';
 import { Platform } from 'react-native';
 
-Notifications.setNotificationHandler({
-  handleNotification: async () => ({
-    shouldShowAlert: true,
-    shouldPlaySound: true,
-    shouldSetBadge: true,
-  }),
-});
-
 export async function registerForPushNotificationsAsync() {
-  let token;
-
   if (!Device.isDevice) {
-    alert('Notificações só funcionam em dispositivo físico');
+    alert('Use um dispositivo físico');
     return null;
   }
 
-  const { status: existingStatus } = await Notifications.getPermissionsAsync();
+  const { status: existingStatus } =
+    await Notifications.getPermissionsAsync();
+
   let finalStatus = existingStatus;
 
   if (existingStatus !== 'granted') {
-    const { status } = await Notifications.requestPermissionsAsync();
+    const { status } =
+      await Notifications.requestPermissionsAsync();
     finalStatus = status;
   }
 
   if (finalStatus !== 'granted') {
-    alert('Permissão para notificações negada');
+    alert('Permissão de notificações negada');
     return null;
   }
 
-  token = (await Notifications.getExpoPushTokenAsync()).data;
-  console.log('Expo Push Token:', token);
+  const token = (
+    await Notifications.getExpoPushTokenAsync()
+  ).data;
 
   if (Platform.OS === 'android') {
     await Notifications.setNotificationChannelAsync('default', {
