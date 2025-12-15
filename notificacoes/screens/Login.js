@@ -28,7 +28,11 @@ const Login = ({ navigation }) => {
       const token = await registerForPushNotificationsAsync();
 
       if (token) {
-        const { data: { user } } = await supabase.auth.getUser();
+        const { data } = await supabase.auth.getUser();
+
+        if (!data?.user) return;
+
+        const user = data.user;
 
         await supabase
           .from('profiles')
@@ -36,29 +40,29 @@ const Login = ({ navigation }) => {
           .eq('user_id', user.id);
       }
 
-      navigation.replace('Home');
+        navigation.replace('Home');
 
-    } catch (err) {
-      Alert.alert('Erro no login', err.message);
-    } finally {
-      setLoading(false);
-    }
+      } catch (err) {
+        Alert.alert('Erro no login', err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    return (
+      <View>
+        <Text>Login</Text>
+
+        <TextInput placeholder="Email" onChangeText={setEmail} />
+        <TextInput placeholder="Senha" secureTextEntry onChangeText={setSenha} />
+
+        <Button
+          title={loading ? 'Entrando...' : 'Entrar'}
+          onPress={handleLogin}
+          disabled={loading}
+        />
+      </View>
+    );
   };
 
-  return (
-    <View>
-      <Text>Login</Text>
-
-      <TextInput placeholder="Email" onChangeText={setEmail} />
-      <TextInput placeholder="Senha" secureTextEntry onChangeText={setSenha} />
-
-      <Button
-        title={loading ? 'Entrando...' : 'Entrar'}
-        onPress={handleLogin}
-        disabled={loading}
-      />
-    </View>
-  );
-};
-
-export default Login;
+  export default Login;
